@@ -24,29 +24,45 @@ class Player {
     this.img.frameIndex = 0;
 
     
-    this.winImg = new Image();
-    this.winImg.src = "assets/src/images/secondMove.png";
-    this.winImg.frames = 4;
-    this.winImg.frameIndex = 0; 
+    this.secondImg = new Image();
+    this.secondImg.src = "assets/src/images/move2.png";
+    this.secondImg.frames = 4;
+    this.secondImg.frameIndex = 0; 
+
+    this.thirdImg = new Image();
+    this.thirdImg.src = "assets/src/images/move3.png";
+    this.thirdImg.frames = 4;
+    this.thirdImg.frameIndex = 0; 
+
+    this.shootImg = new Image();
+    this.shootImg.src = "assets/src/images/shoot2.png";
+    this.shootImg.frames = 4;
+    this.shootImg.frameIndex = 0; 
 
   }
 
   draw() {
 
+    
     let x = this.img;
     let y = this.img.frames;
     let z = this.img.frameIndex;
-    let h = 70
+    let h = 70;
 
-    if (this.lifeBar.length >= 3) {
-      x = this.winImg;
-      y = this.winImg.frames
-      z = this.winImg.frameIndex
-      h = 90
+    if (this.lifeBar.length >= 3 && this.lifeBar.length < 5) {
+      x = this.secondImg;
+      y = this.secondImg.frames;
+      z = this.secondImg.frameIndex;
+      h = 90;
+    } else if (this.lifeBar.length >= 5) {
+      x = this.thirdImg;
+      y = this.thirdImg.frames;
+      z = this.thirdImg.frameIndex;
+      h = 90;
     } 
       
 
-  this.ctx.drawImage(
+    this.ctx.drawImage(
       x,
       z * x.width / y, //source image x
       0, //source image y
@@ -66,44 +82,52 @@ class Player {
   }
 
   animate() {
+  
+  this.tick++;
 
+  switch (true) {
     
-    this.tick++;
-
-    if (this.lifeBar.length >= 3 && this.tick >= 20) {
-    
-      this.winImg.frameIndex++
+    case this.lifeBar.length >= 3 && this.lifeBar.length < 5 && this.tick >= 20:
+      this.secondImg.frameIndex++;
       this.tick = 0;
 
-      if (this.winImg.frameIndex >= (this.winImg.frames -1)) {
-      this.winImg.frameIndex = 0
+      if (this.secondImg.frameIndex >= (this.secondImg.frames - 1)) {
+        this.secondImg.frameIndex = 0;
       }
-    
-    } else if (this.lifeBar.length <= 3 && this.tick >= 20) {
+    break;
 
-        this.img.frameIndex++
-        this.tick = 0;
+    case this.lifeBar.length <= 3 && this.tick >= 20:
+      this.img.frameIndex++;
+      this.tick = 0;
 
-        if (this.img.frameIndex >= (this.img.frames -1)) {
-        this.img.frameIndex = 0
-        }
-      
-        if (this.vy > 0) {
-          this.img.src = "assets/src/images/atterizar.png";
-        } else { this.img.src = "assets/src/images/move.png" }
-      
-      
-    }
-    
+      if (this.img.frameIndex >= (this.img.frames - 1)) {
+        this.img.frameIndex = 0;
+      }
 
-    
+      if (this.vy > 0) {
+        this.img.src = "assets/src/images/atterizar.png";
+      } else {
+        this.img.src = "assets/src/images/move.png";
+      }
+    break;
+
+    case this.lifeBar.length >= 5 && this.tick >= 20:
+      this.thirdImg.frameIndex++;
+      this.tick = 0;
+
+      if (this.thirdImg.frameIndex >= (this.thirdImg.frames - 1)) {
+        this.thirdImg.frameIndex = 0;
+      }
+    break;
   }
+
+}
 
   move() {
 
-    this.vx += this.ax
-    this.vy += this.ay
-    this.y += this.vy
+    this.vx += this.ax;
+    this.vy += this.ay;
+    this.y += this.vy;
 
     if (this.lifeBar.length < 3) {
       
@@ -152,18 +176,22 @@ class Player {
     }
 
 
-    this.bullets.forEach(bullet => bullet.move())
+    this.bullets.forEach(bullet => bullet.move());
   }
 
 
   shoot() {
-    
+
     if (this.munitions.length > 0 && this.lifeBar.length >= 3) {
       const x = this.x + this.w;
       const y = this.y + (this.h / 2);
       const bullet = new Bullet(this.ctx, x, y);
       this.bullets.push(bullet);
-      this.munitions.splice(this.munitions.length -1, 1)
+      this.munitions.splice(this.munitions.length - 1, 1);
+
+      //TODO intentando animar el shoot
+
+      
     }
     
   }
@@ -171,7 +199,7 @@ class Player {
   jump() {
     if (this.y === this.floor && this.lifeBar.length < 3) {
       this.vy = -15;
-      this.vy += this.ay
+      this.vy += this.ay;
     }
   }
 
@@ -179,19 +207,19 @@ class Player {
 
     switch(key) {
       case RIGHT:
-        this.vx = 2
+        this.vx = 3;
         break;
       case LEFT:
-        this.vx = -2
+        this.vx = -3;
         break;
       case DOWN:
-        this.vy = 2;
+        this.vy = 3;
         break;
       case SPACE:
         this.jump();
         break;
       case UP:
-        this.vy = -2;
+        this.vy = -3;
         break;
       case CTRL:
         this.shoot();
@@ -203,14 +231,14 @@ class Player {
     switch(key) {
       case RIGHT:
       case LEFT:
-        this.vx = 0
+        this.vx = 0;
         break;
       case DOWN:
       case UP:
         this.vy = 0;
     }
+    
   }
-
   
 }
 

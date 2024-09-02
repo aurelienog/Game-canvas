@@ -24,7 +24,6 @@ class Game {
     this.move();
     this.addEnemies();
     this.addItems();
-    this.addLives();
     this.addMunitions();
     this.checkCollision();
     this.checkCollectItem();
@@ -64,23 +63,12 @@ class Game {
   }
 
   addItems() {
+    const p = this.player;
     this.tick++;
-    if (this.tick >= 200) {
+    if (this.tick >= 200 && p.lifeBar.length >= 3) {
       this.items.push(new Item(ctx))
       this.tick = Math.random() * 100;
     }
-  }
-
-  addLives() {
-
-    if (this.geo >= 2) {
-      const p = this.player
-      const x = p.lifeBar.length 
-      p.lifeBar.push(new Life(ctx, x))
-      this.geo = 0;
-    }
-    
-  
   }
 
   addMunitions() {
@@ -91,10 +79,8 @@ class Game {
       if (p.munitions.length<=2 && p.lifeBar.length >= 3) {
       p.munitions.push(new Munition(ctx, x))
       this.munitionCount = 0
-      } else { this.munitionCount = 0}
-      
+      } else { this.munitionCount = 0}     
     }
-    
   
   }
 
@@ -135,11 +121,9 @@ class Game {
           const colY = (bullet.y + bullet.h) >= enemy.y && bullet.y <= (enemy.y + enemy.h);
 
           if (colX && colY) {
-        
-        
             this.enemies.splice(i, 1);
             p.bullets.splice(y, 1);
-        
+            p.lifeBar.push(new Life(ctx, x))
           }
         })
         })
@@ -214,12 +198,6 @@ class Game {
     }
   }
 
-  /*win() {
-    if () {
-      this.player.winDraw() 
-    }
-    
-  }*/
 
 
 }
