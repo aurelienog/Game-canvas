@@ -16,7 +16,6 @@ class Player {
     this.bullets = [];
     this.munitions = [];
     this.lifeBar = [new Life(ctx, 0)];
-    
 
     this.img = new Image();
     this.img.src = "assets/src/images/move.png"
@@ -33,11 +32,6 @@ class Player {
     this.thirdImg.src = "assets/src/images/move3.png";
     this.thirdImg.frames = 4;
     this.thirdImg.frameIndex = 0; 
-
-    this.shootImg = new Image();
-    this.shootImg.src = "assets/src/images/shoot2.png";
-    this.shootImg.frames = 4;
-    this.shootImg.frameIndex = 0; 
 
   }
 
@@ -64,10 +58,10 @@ class Player {
 
     this.ctx.drawImage(
       x,
-      z * x.width / y, //source image x
-      0, //source image y
-      x.width / y, //source image width
-      x.height, //source image height
+      z * x.width / y, 
+      0, 
+      x.width / y, 
+      x.height,
       this.x,
       this.y,
       this.w,
@@ -94,6 +88,7 @@ class Player {
       if (this.secondImg.frameIndex >= (this.secondImg.frames - 1)) {
         this.secondImg.frameIndex = 0;
       }
+
     break;
 
     case this.lifeBar.length <= 3 && this.tick >= 20:
@@ -105,7 +100,7 @@ class Player {
       }
 
       if (this.vy > 0) {
-        this.img.src = "assets/src/images/atterizar.png";
+        this.img.src = "assets/src/images/jump.png";
       } else {
         this.img.src = "assets/src/images/move.png";
       }
@@ -129,26 +124,29 @@ class Player {
     this.vy += this.ay;
     this.y += this.vy;
 
-    if (this.lifeBar.length < 3) {
+    switch (true) {
+
+      case this.lifeBar.length < 3:
       
-      this.ay = 0.5;
+        this.ay = 0.5;
 
-      if (this.x <= 0) {
-        this.x = 0;
-        this.vx = 0;
-      }
+        if (this.x <= 0) {
+          this.x = 0;
+          this.vx = 0;
+        }
 
-      if (this.x + this.w >= this.ctx.canvas.width) {
-        this.vx = 0;
-        this.x = this.ctx.canvas.width - this.w; 
-      }
+        if (this.x + this.w >= this.ctx.canvas.width) {
+          this.vx = 0;
+          this.x = this.ctx.canvas.width - this.w;
+        }
 
-      if (this.y >= this.floor) {
-        this.vy = 0;
-        this.y = this.floor;
-      } 
-
-    } else {
+        if (this.y >= this.floor) {
+          this.vy = 0;
+          this.y = this.floor;
+        }
+        break;
+        
+      case this.lifeBar.length >=3:
       
       this.ay = 0;
       
@@ -164,14 +162,13 @@ class Player {
 
       if (this.y + this.h >= this.ctx.canvas.height) {
         this.vy = 0;
-        this.y = this.ctx.canvas.height - this.h;
+        this.y = this.ctx.canvas.height - this.h -5;
       } 
 
       if (this.y <= 0) {
         this.vy = 0;
         this.y = 0;
       } 
-
 
     }
 
@@ -182,17 +179,18 @@ class Player {
 
   shoot() {
 
-    if (this.munitions.length > 0 && this.lifeBar.length >= 3) {
+    if (this.munitions.length > 0 && this.lifeBar.length >= 3) {     
+
       const x = this.x + this.w;
       const y = this.y + (this.h / 2);
       const bullet = new Bullet(this.ctx, x, y);
       this.bullets.push(bullet);
       this.munitions.splice(this.munitions.length - 1, 1);
 
-      //TODO intentando animar el shoot
+      
 
       
-    }
+    } 
     
   }
 

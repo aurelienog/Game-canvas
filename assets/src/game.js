@@ -6,12 +6,13 @@ class Game {
     this.bg = new Background(ctx);
     this.interval = null;
     this.tick = 0;
-    this.tickEnemy = 0;
     this.player = new Player(ctx);
-    this.enemies = [];
     this.items = [];
     this.geo = 0;
     this.munitionCount = 0
+
+    this.enemies = [];
+    this.tickEnemy = 0;
   }
 
   start() {
@@ -46,7 +47,6 @@ class Game {
   move() {
     this.player.move() ;
     this.enemies.forEach(enemy => enemy.move());
-    
     const x = this.player.vx * -1;
     this.items.forEach(item => item.move(x));
     this.bg.move(x);
@@ -55,8 +55,10 @@ class Game {
 
   addEnemies() {
     this.tickEnemy++;
-    if (this.tickEnemy >= 300) {
-      this.enemies.push(new Enemy(ctx))
+    let indice = Math.floor(Math.random() * 4)
+    
+    if (this.tickEnemy >= 200) {
+      this.enemies.push(new Enemy(ctx, indice))
       this.tickEnemy = Math.random() * 100;
     }
 
@@ -94,31 +96,35 @@ class Game {
     const x = p.lifeBar.length 
     
     this.enemies.forEach((enemy, i) => {
-      const colX = (p.x + p.w) >= enemy.x && p.x <= (enemy.x + enemy.w) ;
-      const colY = (p.y + p.h) >= enemy.y && p.y <= (enemy.y + enemy.h) ;
-
-      if (colX && colY) {
-
-        if (p.vy > enemy.vy && p.lifeBar.length <3) {
-          this.enemies.splice(i, 1)
-          p.lifeBar.push(new Life(ctx, x))
-        } else {
-          p.lifeBar.splice(p.lifeBar.length -1, 1);
-          this.enemies.splice(i, 1);
+    
+    const enemyObj = enemy.typeEnemy[enemy.indice];
+    
+    
+    const colX = (p.x + p.w) >= enemyObj.x && p.x <= (enemyObj.x + enemyObj.w);
+    const colY = (p.y + p.h) >= enemyObj.y && p.y <= (enemyObj.y + enemyObj.h);
+    
+    if (colX && colY) {
+      if (p.vy > enemyObj.vy && p.lifeBar.length < 3) {
+        this.enemies.splice(i, 1);
+        p.lifeBar.push(new Life(ctx, x));
+      } else {
+        p.lifeBar.splice(p.lifeBar.length - 1, 1);
+        this.enemies.splice(i, 1);
         if (p.lifeBar.length === 0) {
-          this.gameOver()
+          this.gameOver();
         }
-
-        }
-        
-        
       }
+        
+    }
 
       p.bullets.forEach((bullet, y) => {
 
         this.enemies.forEach((enemy, i) => {
-          const colX = (bullet.x + bullet.w) >= enemy.x && bullet.x <= (enemy.x + enemy.w);
-          const colY = (bullet.y + bullet.h) >= enemy.y && bullet.y <= (enemy.y + enemy.h);
+
+          const enemyObj = enemy.typeEnemy[enemy.indice];
+    
+          const colX = (bullet.x + bullet.w) >= enemyObj.x && bullet.x <= (enemyObj.x + enemyObj.w);
+          const colY = (bullet.y + bullet.h) >= enemyObj.y && bullet.y <= (enemyObj.y + enemyObj.h);
 
           if (colX && colY) {
             this.enemies.splice(i, 1);
