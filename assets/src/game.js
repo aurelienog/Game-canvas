@@ -55,9 +55,9 @@ class Game {
 
   addEnemies() {
     this.tickEnemy++;
-    let indice = Math.floor(Math.random() * 4)
+    let indice = Math.floor(Math.random() * 17)
     
-    if (this.tickEnemy >= 200) {
+    if (this.tickEnemy >= 150) {
       this.enemies.push(new Enemy(ctx, indice))
       this.tickEnemy = Math.random() * 100;
     }
@@ -78,6 +78,7 @@ class Game {
 
     if (this.munitionCount >= 1) {
       const x = p.munitions.length
+      
       if (p.munitions.length<=2 && p.lifeBar.length >= 3) {
       p.munitions.push(new Munition(ctx, x))
       this.munitionCount = 0
@@ -97,14 +98,14 @@ class Game {
     
     this.enemies.forEach((enemy, i) => {
     
-    const enemyObj = enemy.typeEnemy[enemy.indice];
+    const enemyType = enemy.enemyTypes[enemy.indice];
     
     
-    const colX = (p.x + p.w) >= enemyObj.x && p.x <= (enemyObj.x + enemyObj.w);
-    const colY = (p.y + p.h) >= enemyObj.y && p.y <= (enemyObj.y + enemyObj.h);
+    const colX = (p.x + p.w) >= enemyType.x && p.x <= (enemyType.x + enemyType.w);
+    const colY = (p.y + p.h) >= enemyType.y && p.y <= (enemyType.y + enemyType.h);
     
     if (colX && colY) {
-      if (p.vy > enemyObj.vy && p.lifeBar.length < 3) {
+      if (p.vy > enemyType.vy && p.lifeBar.length < 3) {
         this.enemies.splice(i, 1);
         p.lifeBar.push(new Life(ctx, x));
       } else {
@@ -121,10 +122,10 @@ class Game {
 
         this.enemies.forEach((enemy, i) => {
 
-          const enemyObj = enemy.typeEnemy[enemy.indice];
+          const enemyType = enemy.enemyTypes[enemy.indice];
     
-          const colX = (bullet.x + bullet.w) >= enemyObj.x && bullet.x <= (enemyObj.x + enemyObj.w);
-          const colY = (bullet.y + bullet.h) >= enemyObj.y && bullet.y <= (enemyObj.y + enemyObj.h);
+          const colX = (bullet.x + bullet.w) >= enemyType.x && bullet.x <= (enemyType.x + enemyType.w);
+          const colY = (bullet.y + bullet.h) >= enemyType.y && bullet.y <= (enemyType.y + enemyType.h);
 
           if (colX && colY) {
             this.enemies.splice(i, 1);

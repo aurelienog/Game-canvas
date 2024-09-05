@@ -4,13 +4,13 @@ class Item {
     this.ctx = ctx;
 
     this.x = 800;
-    this.y = 250+ Math.random() * 150
-    this.w = 15;
-    this.h = 15
-    this.vx = 0
+    this.y = 250 + Math.random() * 150;
+    this.w = 30;
+    this.h = 30;
+    this.vx = 0;
 
     this.img = new Image();
-    this.img.src = "assets/src/images/geo.png";
+    this.img.src = "assets/src/images/seal.png";
   }
 
   draw() {

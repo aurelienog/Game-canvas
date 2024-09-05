@@ -12,24 +12,25 @@ class Player {
     this.ax = 0;
     this.ay = 0;
     this.floor = 400;
+    this.flyingFloor = 450;
     this.tick = 0;
     this.bullets = [];
     this.munitions = [];
     this.lifeBar = [new Life(ctx, 0)];
 
     this.img = new Image();
-    this.img.src = "assets/src/images/move.png"
+    this.img.src = "assets/src/images/player/move.png"
     this.img.frames = 3;
     this.img.frameIndex = 0;
 
     
     this.secondImg = new Image();
-    this.secondImg.src = "assets/src/images/move2.png";
-    this.secondImg.frames = 4;
+    this.secondImg.src = "assets/src/images/player/move2.png";
+    this.secondImg.frames = 8;
     this.secondImg.frameIndex = 0; 
 
     this.thirdImg = new Image();
-    this.thirdImg.src = "assets/src/images/move3.png";
+    this.thirdImg.src = "assets/src/images/player/move3.png";
     this.thirdImg.frames = 4;
     this.thirdImg.frameIndex = 0; 
 
@@ -86,7 +87,7 @@ class Player {
       this.tick = 0;
 
       if (this.secondImg.frameIndex >= (this.secondImg.frames - 1)) {
-        this.secondImg.frameIndex = 0;
+        this.secondImg.frameIndex = 4;
       }
 
     break;
@@ -100,9 +101,9 @@ class Player {
       }
 
       if (this.vy > 0) {
-        this.img.src = "assets/src/images/jump.png";
+        this.img.src = "assets/src/images/player/jump.png";
       } else {
-        this.img.src = "assets/src/images/move.png";
+        this.img.src = "assets/src/images/player/move.png";
       }
     break;
 
@@ -113,6 +114,7 @@ class Player {
       if (this.thirdImg.frameIndex >= (this.thirdImg.frames - 1)) {
         this.thirdImg.frameIndex = 0;
       }
+      
     break;
   }
 
@@ -160,9 +162,9 @@ class Player {
         this.x = this.ctx.canvas.width - this.w; 
       }
 
-      if (this.y + this.h >= this.ctx.canvas.height) {
+      if (this.y + this.h >= this.flyingFloor) {
         this.vy = 0;
-        this.y = this.ctx.canvas.height - this.h -5;
+        this.y = this.flyingFloor - this.h;
       } 
 
       if (this.y <= 0) {
@@ -198,6 +200,8 @@ class Player {
     if (this.y === this.floor && this.lifeBar.length < 3) {
       this.vy = -15;
       this.vy += this.ay;
+    } else if (this.lifeBar.length >= 3) {
+      this.vy = -3;
     }
   }
 
