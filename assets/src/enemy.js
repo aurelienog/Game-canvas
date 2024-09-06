@@ -5,6 +5,10 @@ class Enemy {
     this.indice = indice;
 
     this.tick = 0;
+    this.bulletTick = 0;
+    this.bulletTick3 = 0;
+    this.bulletTickDown = 0;
+    this.enemiesBullets = [];
 
     this.mossFlyImg = new Image()
     this.mossFlyImg.src = ["assets/src/images/enemies/Mossfly.png",]
@@ -71,7 +75,8 @@ class Enemy {
       vx: -6,
       vy: 0,
       ax: 0,
-      ay: 0
+      ay: 0,
+      canShoot: true,
     },
     
       {
@@ -99,7 +104,8 @@ class Enemy {
       vx: -4,
       vy: 0,
       ax: 0,
-      ay: 0
+      ay: 0,
+      canShootDown: true,
       },
     
       {
@@ -113,7 +119,8 @@ class Enemy {
       vx: -6,
       vy: 0,
       ax: 0,
-      ay: 0
+      ay: 0,
+      canShoot: true,
     },
 
     {
@@ -127,7 +134,8 @@ class Enemy {
       vx: -4,
       vy: 0,
       ax: 0,
-      ay: 0
+      ay: 0,
+      canShoot3: true,
     },
 
     {
@@ -183,7 +191,7 @@ class Enemy {
       vx: -4,
       vy: 0,
       ax: 0,
-      ay: 0
+      ay: 0,
     },
 
       {
@@ -197,7 +205,8 @@ class Enemy {
         vx: -4,
       vy: 0,
       ax: 0,
-      ay: 0
+      ay: 0,
+      canShoot: true,
       },
 
       {
@@ -239,7 +248,7 @@ class Enemy {
         vx: -5,
       vy: 0,
       ax: 0,
-      ay: 0
+      ay: 0,
     },
 
     {
@@ -253,7 +262,8 @@ class Enemy {
       vx: -4,
       vy: 0,
       ax: 0,
-      ay: 0
+      ay: 0,
+      canShootDown: true,
       },
 
       
@@ -317,8 +327,10 @@ class Enemy {
       enemyType.w,
       enemyType.h
     );
-    
-      this.animate()
+
+    this.shoot();
+    this.animate();
+    this.enemiesBullets.forEach(bullet => bullet.draw());
 
   }
 
@@ -327,7 +339,7 @@ class Enemy {
     const enemyType = this.enemyTypes[this.indice];
     this.tick++
 
-    if (this.tick >= 20) {
+    if (this.tick >= 10) {
       enemyType.frameIndex++
       this.tick = 0
     }
@@ -344,6 +356,49 @@ class Enemy {
     enemyType.x += enemyType.vx;
     enemyType.y += enemyType.vy;
 
+    this.enemiesBullets.forEach(bullet => bullet.move());
+
+  }
+
+  shoot() {
+
+    
+    this.bulletTick++;
+    this.bulletTick3++;
+    this.bulletTickDown++;
+    const enemyType = this.enemyTypes[this.indice];
+
+    if (this.bulletTick >= 100 && enemyType.canShoot) {
+      
+      const x = enemyType.x;
+      const y = enemyType.y + enemyType.h / 2;
+      const enemyBullet = new EnemyBullet(this.ctx, x, y, 0);
+      this.enemiesBullets.push(enemyBullet);
+      this.bulletTick = 0;
+    }
+
+    if (this.bulletTick3 >= 100 && enemyType.canShoot3) {
+      
+      const x = enemyType.x;
+      const y = enemyType.y + enemyType.h / 2;
+      const enemyBullet1 = new EnemyBullet(this.ctx, x, y, 0);
+      const enemyBullet2 = new EnemyBullet(this.ctx, x, y, -5);
+      const enemyBullet3 = new EnemyBullet(this.ctx, x, y, 5);
+      this.enemiesBullets.push(enemyBullet1, enemyBullet2,enemyBullet3 );
+      console.log('3 bullets shot');
+      this.bulletTick3 = 0;
+    }
+
+    if (this.bulletTickDown >= 100 && enemyType.canShootDown) {
+      
+      const x = enemyType.x;
+      const y = enemyType.y + enemyType.h / 2;
+      const enemyBullet = new EnemyBullet(this.ctx, x, y, 5);
+      this.enemiesBullets.push(enemyBullet);
+      this.bulletTickDown = 0;
+    }
+
+    
   }
 
   isVisible() {

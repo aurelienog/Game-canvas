@@ -12,7 +12,9 @@ class Game {
     this.munitionCount = 0
 
     this.enemies = [];
-    this.tickEnemy = 0;
+    this.tickEnemy1 = 0;
+    this.tickEnemy2 = 0;
+    this.tickEnemy3 = 0;
   }
 
   start() {
@@ -54,13 +56,30 @@ class Game {
   }
 
   addEnemies() {
-    this.tickEnemy++;
+    this.tickEnemy1++;
+    this.tickEnemy2++;
+    this.tickEnemy3++;
     let indice = Math.floor(Math.random() * 17)
+    const p = this.player;
     
-    if (this.tickEnemy >= 150) {
+    switch (true) {
+      case p.lifeBar.length >= 5 && this.tickEnemy3 >= 130:
+        this.enemies.push(new Enemy(ctx, indice))
+        this.tickEnemy3 = Math.random() * 100;
+        break;
+      case p.lifeBar.length >= 3 && this.tickEnemy2 >= 145:
+        this.enemies.push(new Enemy(ctx, indice))
+        this.tickEnemy2 = Math.random() * 100;
+        break;
+      case p.lifeBar.length <3 && this.tickEnemy1 >= 160:
+        this.enemies.push(new Enemy(ctx, indice))
+        this.tickEnemy1 = Math.random() * 100;
+        break;
+    }
+    /*if (this.tickEnemy >= 150) {
       this.enemies.push(new Enemy(ctx, indice))
       this.tickEnemy = Math.random() * 100;
-    }
+    }*/
 
   }
 
