@@ -1,5 +1,44 @@
 body {
   background-color: black;
+  background-image: url(background.jpg);
+  background-size:cover;
+}
+
+h1 {
+  color: white;
+  text-align: center;
+  font-size: 5em;
+  text-shadow: 0px 0px 5px #d3939f, 0px 0px 10px #d3939f, 0px 0px 10px #d3939f,
+  0px 0px 20px #d3939f;
+  margin : 0;
+  padding: 0.5em;
+}
+
+h2 {
+  color: white;
+  text-align: center;
+  font-size: 3em;
+  text-shadow: 0px 0px 5px #d3939f, 0px 0px 10px #d3939f, 0px 0px 10px #d3939f,
+  0px 0px 20px #d3939f;
+  animation: blink 1.3s linear infinite;
+  margin : 0;
+  padding: 0;
+  display: block;
+}
+
+.blink {
+  margin: 5em;
+}
+
+@keyframes blink{
+0%{opacity: 0.3;}
+50%{opacity: 1;}
+100%{opacity: 0.5;}
+}
+
+.container {
+  display: flex;
+  justify-content: center;
 }
 
 canvas {

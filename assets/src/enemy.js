@@ -98,7 +98,7 @@ class Enemy {
       frames: 4,
       frameIndex : 0,
       x : 800,
-      y : 250+ Math.random() * 80,
+      y : 150+ Math.random() * 80,
       w : 70,
       h: 70,
       vx: -4,
@@ -368,7 +368,7 @@ class Enemy {
     this.bulletTickDown++;
     const enemyType = this.enemyTypes[this.indice];
 
-    if (this.bulletTick >= 100 && enemyType.canShoot) {
+    if (this.bulletTick >= 70 && enemyType.canShoot) {
       
       const x = enemyType.x;
       const y = enemyType.y + enemyType.h / 2;
@@ -377,7 +377,7 @@ class Enemy {
       this.bulletTick = 0;
     }
 
-    if (this.bulletTick3 >= 100 && enemyType.canShoot3) {
+    if (this.bulletTick3 >= 90 && enemyType.canShoot3) {
       
       const x = enemyType.x;
       const y = enemyType.y + enemyType.h / 2;
@@ -385,7 +385,6 @@ class Enemy {
       const enemyBullet2 = new EnemyBullet(this.ctx, x, y, -5);
       const enemyBullet3 = new EnemyBullet(this.ctx, x, y, 5);
       this.enemiesBullets.push(enemyBullet1, enemyBullet2,enemyBullet3 );
-      console.log('3 bullets shot');
       this.bulletTick3 = 0;
     }
 

@@ -181,18 +181,23 @@ class Player {
 
   shoot() {
 
-    if (this.munitions.length > 0 && this.lifeBar.length >= 3) {     
-
+    if (this.munitions.length > 0 && this.lifeBar.length >= 5) {
       const x = this.x + this.w;
       const y = this.y + (this.h / 2);
-      const bullet = new Bullet(this.ctx, x, y);
-      this.bullets.push(bullet);
+      const bullet1 = new Bullet(this.ctx, x, y, 0);
+      const bullet2 = new Bullet(this.ctx, x, (y - 15), -1);
+      const bullet3 = new Bullet(this.ctx, x, (y + 15), 1);
+      this.bullets.push(bullet1, bullet2, bullet3);
       this.munitions.splice(this.munitions.length - 1, 1);
-
       
+    } else if (this.munitions.length > 0 && this.lifeBar.length >= 3 && this.lifeBar.length < 5) {
 
-      
-    } 
+        const x = this.x + this.w;
+        const y = this.y + (this.h / 2);
+        const bullet = new Bullet(this.ctx, x, y, 0);
+        this.bullets.push(bullet);
+        this.munitions.splice(this.munitions.length - 1, 1);      
+      }
     
   }
 

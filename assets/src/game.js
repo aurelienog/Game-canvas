@@ -28,7 +28,8 @@ class Game {
     this.addEnemies();
     this.addItems();
     this.addMunitions();
-    this.checkCollision();
+      this.checkCollision();
+      this.checkBulletsCollision();
     this.checkCollectItem();
       
     }, 1000/60)
@@ -111,9 +112,41 @@ class Game {
     //TODO cortar this.initListeners();
   }
 
+  checkBulletsCollision() {
+    const p = this.player;
+      
+    this.enemies.forEach((enemy) => {
+      const b = enemy.enemiesBullets;
+      b.forEach((bullet,y) => {
+        const colX = (bullet.x + bullet.w) >= this.player.x && bullet.x <= (this.player.x + this.player.w);
+        const colY = (bullet.y + bullet.h) >= this.player.y && bullet.y <= (this.player.y + this.player.h);
+      
+        if (colX && colY) {
+          p.lifeBar.splice(p.lifeBar.length - 1, 1);
+          b.splice(y, 1);
+          if (p.lifeBar.length === 0) {
+            this.gameOver();
+          }
+        }
+
+        p.bullets.forEach((bllt, i) => {
+        
+          const colBX = (bullet.x + bullet.w) >= bllt.x && bullet.x <= (bllt.x + bllt.w);
+          const colBY = (bullet.y + bullet.h) >= bllt.y && bullet.y <= (bllt.y + bllt.h);
+
+            if (colBX && colBY) {
+              b.splice(y, 1);
+              p.bullets.splice(i, 1);
+            }        
+        })
+      })
+    })
+    
+  }
+
   checkCollision() {
     const p = this.player;
-    const x = p.lifeBar.length 
+    const x = p.lifeBar.length; 
     
     this.enemies.forEach((enemy, i) => {
     
@@ -149,7 +182,9 @@ class Game {
           if (colX && colY) {
             this.enemies.splice(i, 1);
             p.bullets.splice(y, 1);
-            p.lifeBar.push(new Life(ctx, x))
+            if (p.lifeBar.length < 10) {
+            p.lifeBar.push(new Life(ctx, x))  
+            } 
           }
         })
         })
