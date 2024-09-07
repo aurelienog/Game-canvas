@@ -1,7 +1,7 @@
 class Game {
 
   constructor(ctx) {
-    this.ctx = ctx
+    this.ctx = ctx;
 
     this.bg = new Background(ctx);
     this.interval = null;
@@ -9,30 +9,35 @@ class Game {
     this.player = new Player(ctx);
     this.items = [];
     this.geo = 0;
-    this.munitionCount = 0
+    this.munitionCount = 0;
 
     this.enemies = [];
     this.tickEnemy1 = 0;
     this.tickEnemy2 = 0;
     this.tickEnemy3 = 0;
+
+    this.gameAudio = new Audio("assets/src/music/gameAudio.mp3");
+    this.gameAudio.volume = 0.01;
+    
+    
   }
 
   start() {
-    this.stop()
+    this.gameAudio.play();
+    this.stop();
     this.initListeners();
-    
     this.interval = setInterval(() => {
-    this.clear();
-    this.draw();
-    this.move();
-    this.addEnemies();
-    this.addItems();
-    this.addMunitions();
+      this.clear();
+      this.draw();
+      this.move();
+      this.addEnemies();
+      this.addItems();
+      this.addMunitions();
       this.checkCollision();
       this.checkBulletsCollision();
-    this.checkCollectItem();
+      this.checkCollectItem();
       
-    }, 1000/60)
+    }, 1000 / 60);
 
   }
 
@@ -42,9 +47,7 @@ class Game {
     this.player.draw() ;
     this.enemies.forEach(enemy => enemy.draw()); 
     this.items.forEach(item => item.draw()); 
-    
-    
-  
+
   }
 
   move() {
@@ -60,27 +63,23 @@ class Game {
     this.tickEnemy1++;
     this.tickEnemy2++;
     this.tickEnemy3++;
-    let indice = Math.floor(Math.random() * 17)
+    let indice = Math.floor(Math.random() * 17);
     const p = this.player;
     
     switch (true) {
       case p.lifeBar.length >= 5 && this.tickEnemy3 >= 130:
-        this.enemies.push(new Enemy(ctx, indice))
+        this.enemies.push(new Enemy(ctx, indice));
         this.tickEnemy3 = Math.random() * 100;
         break;
       case p.lifeBar.length >= 3 && this.tickEnemy2 >= 145:
-        this.enemies.push(new Enemy(ctx, indice))
+        this.enemies.push(new Enemy(ctx, indice));
         this.tickEnemy2 = Math.random() * 100;
         break;
       case p.lifeBar.length <3 && this.tickEnemy1 >= 160:
-        this.enemies.push(new Enemy(ctx, indice))
+        this.enemies.push(new Enemy(ctx, indice));
         this.tickEnemy1 = Math.random() * 100;
         break;
     }
-    /*if (this.tickEnemy >= 150) {
-      this.enemies.push(new Enemy(ctx, indice))
-      this.tickEnemy = Math.random() * 100;
-    }*/
 
   }
 
@@ -88,7 +87,7 @@ class Game {
     const p = this.player;
     this.tick++;
     if (this.tick >= 200 && p.lifeBar.length >= 3) {
-      this.items.push(new Item(ctx))
+      this.items.push(new Item(ctx));
       this.tick = Math.random() * 100;
     }
   }
@@ -97,11 +96,11 @@ class Game {
     const p = this.player;
 
     if (this.munitionCount >= 1) {
-      const x = p.munitions.length
+      const x = p.munitions.length;
       
       if (p.munitions.length<=2 && p.lifeBar.length >= 3) {
-      p.munitions.push(new Munition(ctx, x))
-      this.munitionCount = 0
+        p.munitions.push(new Munition(ctx, x));
+        this.munitionCount = 0;
       } else { this.munitionCount = 0}     
     }
   
@@ -183,7 +182,7 @@ class Game {
             this.enemies.splice(i, 1);
             p.bullets.splice(y, 1);
             if (p.lifeBar.length < 10) {
-            p.lifeBar.push(new Life(ctx, x))  
+              p.lifeBar.push(new Life(ctx, x));
             } 
           }
         })
@@ -201,8 +200,8 @@ class Game {
 
       if (colX && colY) {
         this.items.splice(i, 1);
-        this.geo++
-        this.munitionCount++
+        this.geo++;
+        this.munitionCount++;
       }
     })
 
@@ -227,7 +226,7 @@ class Game {
       this.ctx.canvas.height,
     )
 
-    const p = this.player
+    const p = this.player;
 
     p.bullets = p.bullets.filter(bullet => bullet.isVisible())
     
@@ -243,8 +242,10 @@ class Game {
   
   gameOver() {
     this.stop();
+    this.gameAudio.pause(); 
     this.ctx.font = "60px serif";
-    this.ctx.fillText('GAME OVER', 200, 250)
+    ctx.fillStyle = "white";
+    this.ctx.fillText('GAME OVER', 200, 250);
   }
 
 
