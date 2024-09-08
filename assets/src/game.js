@@ -16,13 +16,20 @@ class Game {
     this.tickEnemy2 = 0;
     this.tickEnemy3 = 0;
 
+    this.killedCount = 0;
+
     this.gameAudio = new Audio("assets/src/music/gameAudio.mp3");
     this.gameAudio.volume = 0.01;
     
-    
+    this.gameOverAudio = new Audio("assets/src/music/gameOver.mp3");
+    this.gameAudio.volume = 0.01;
+
+    this.itemAudio = new Audio ("assets/src/music/item.mp3")
+    this.itemAudio.volume = 0.03;
   }
 
   start() {
+    this.gameAudio.loop = true;
     this.gameAudio.play();
     this.stop();
     this.initListeners();
@@ -44,7 +51,7 @@ class Game {
   
   draw() {
     this.bg.draw();
-    this.player.draw() ;
+    this.player.draw(this.killedCount) ;
     this.enemies.forEach(enemy => enemy.draw()); 
     this.items.forEach(item => item.draw()); 
 
@@ -97,9 +104,11 @@ class Game {
 
     if (this.munitionCount >= 1) {
       const x = p.munitions.length;
+      this.itemAudio.play();
       
       if (p.munitions.length<=2 && p.lifeBar.length >= 3) {
         p.munitions.push(new Munition(ctx, x));
+        this.itemAudio.play();
         this.munitionCount = 0;
       } else { this.munitionCount = 0}     
     }
@@ -110,6 +119,7 @@ class Game {
     clearInterval(this.interval)
     //TODO cortar this.initListeners();
   }
+  
 
   checkBulletsCollision() {
     const p = this.player;
@@ -159,6 +169,8 @@ class Game {
       if (p.vy > enemyType.vy && p.lifeBar.length < 3) {
         this.enemies.splice(i, 1);
         p.lifeBar.push(new Life(ctx, x));
+        this.killedCount++;
+        
       } else {
         p.lifeBar.splice(p.lifeBar.length - 1, 1);
         this.enemies.splice(i, 1);
@@ -181,8 +193,10 @@ class Game {
           if (colX && colY) {
             this.enemies.splice(i, 1);
             p.bullets.splice(y, 1);
-            if (p.lifeBar.length < 10) {
+            this.killedCount++;
+            if (p.lifeBar.length < 8) {
               p.lifeBar.push(new Life(ctx, x));
+              
             } 
           }
         })
@@ -243,8 +257,9 @@ class Game {
   gameOver() {
     this.stop();
     this.gameAudio.pause(); 
+    this.gameOverAudio.play();
     this.ctx.font = "60px serif";
-    ctx.fillStyle = "white";
+    this.ctx.fillStyle = "white";
     this.ctx.fillText('GAME OVER', 200, 250);
   }
 

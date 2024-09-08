@@ -4,7 +4,7 @@ class Item {
     this.ctx = ctx;
 
     this.x = 800;
-    this.y = 250 + Math.random() * 150;
+    this.y = 50 + Math.random() * 300;
     this.w = 30;
     this.h = 30;
     this.vx = 0;

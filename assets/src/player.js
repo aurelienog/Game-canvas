@@ -36,8 +36,11 @@ class Player {
 
   }
 
-  draw() {
-
+  draw(sum) {
+    
+    this.ctx.font = "30px serif";
+    this.ctx.fillStyle = "white";
+    this.ctx.fillText(sum,765, 30)
     
     let x = this.img;
     let y = this.img.frames;
