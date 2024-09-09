@@ -5,6 +5,7 @@ class Game {
 
     this.bg = new Background(ctx);
     this.interval = null;
+    this.finalInterval = null;
     this.tick = 0;
     this.player = new Player(ctx);
     this.items = [];
@@ -170,6 +171,9 @@ class Game {
         this.enemies.splice(i, 1);
         p.lifeBar.push(new Life(ctx, x));
         this.killedCount++;
+        if (this.killedCount >= 5) {
+          this.finish()
+        }
         
       } else {
         p.lifeBar.splice(p.lifeBar.length - 1, 1);
@@ -194,6 +198,9 @@ class Game {
             this.enemies.splice(i, 1);
             p.bullets.splice(y, 1);
             this.killedCount++;
+            if (this.killedCount >= 5) {
+          this.finish()
+        }
             if (p.lifeBar.length < 8) {
               p.lifeBar.push(new Life(ctx, x));
               
@@ -253,6 +260,17 @@ class Game {
 
   } 
 
+  finish() {
+    this.stop();
+    this.finalInterval = setInterval(() => {
+      this.clear();
+      this.draw();
+      this.player.finalMove();
+      this.enemies.forEach(enemy => enemy.move());
+    }, 1000 / 60);
+
+  }
+
   
   gameOver() {
     this.stop();
@@ -267,11 +285,17 @@ class Game {
   initListeners() {
 
     document.onkeydown = (e) => {
-      this.player.onKeyDown(e.keyCode);
+      if (this.killedCount < 5) {
+        this.player.onKeyDown(e.keyCode);
+      }
+      
     }
 
     document.onkeyup = (e) => {
-      this.player.onKeyUp(e.keyCode);
+      if (this.killedCount < 5) {
+        this.player.onKeyUp(e.keyCode);
+      }
+      
     }
   }
 

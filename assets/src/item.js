@@ -10,7 +10,7 @@ class Item {
     this.vx = 0;
 
     this.img = new Image();
-    this.img.src = "assets/src/images/seal.png";
+    this.img.src = "assets/src/images/bullet.png";
   }
 
   draw() {

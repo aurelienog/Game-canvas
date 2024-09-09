@@ -34,6 +34,10 @@ class Player {
     this.thirdImg.frames = 4;
     this.thirdImg.frameIndex = 0; 
 
+    this.finalImage = new Image();
+    this.finalImage.src = "assets/src/images/player/bow.png";
+    this.finalImage.frames = 7;
+    this.finalImage.frameIndex = 0;
   }
 
   draw(sum) {
@@ -47,7 +51,13 @@ class Player {
     let z = this.img.frameIndex;
     let h = 70;
 
-    if (this.lifeBar.length >= 3 && this.lifeBar.length < 5) {
+    if ((this.vy === 0 && this.vx === 0 && sum >=5)) { 
+      x = this.finalImage;
+      y = this.finalImage.frames;
+      z = this.finalImage.frameIndex;
+      h = 90;
+
+    } else if (this.lifeBar.length >= 3 && this.lifeBar.length < 5) {
       x = this.secondImg;
       y = this.secondImg.frames;
       z = this.secondImg.frameIndex;
@@ -71,7 +81,7 @@ class Player {
       this.w,
       h
   )
-    this.animate();
+    this.animate(sum);
 
     this.bullets.forEach(bullet => bullet.draw());
     this.munitions.forEach(mun => mun.draw());
@@ -79,21 +89,30 @@ class Player {
 
   }
 
-  animate() {
+  animate(sum) {
   
   this.tick++;
 
-  switch (true) {
+    switch (true) {
     
-    case this.lifeBar.length >= 3 && this.lifeBar.length < 5 && this.tick >= 20:
-      this.secondImg.frameIndex++;
-      this.tick = 0;
+      case this.vy === 0 && this.vx === 0 && sum >= 5 && this.tick >= 20:
+        this.finalImage.frameIndex++;
+        this.tick = 0;
 
-      if (this.secondImg.frameIndex >= (this.secondImg.frames - 1)) {
-        this.secondImg.frameIndex = 4;
-      }
+        if (this.finalImage.frameIndex >= (this.finalImage.frames - 1)) {
+          this.finalImage.frameIndex = 0;
+        }     
+        break;
+    
+        case this.lifeBar.length >= 3 && this.lifeBar.length < 5 && this.tick >= 20:
+          this.secondImg.frameIndex++;
+          this.tick = 0;
 
-    break;
+          if (this.secondImg.frameIndex >= (this.secondImg.frames - 1)) {
+            this.secondImg.frameIndex = 4;
+          }
+
+        break;
 
     case this.lifeBar.length <= 3 && this.tick >= 20:
       this.img.frameIndex++;
@@ -181,6 +200,23 @@ class Player {
     this.bullets.forEach(bullet => bullet.move());
   }
 
+  finalMove() {
+    this.x += this.vx;
+    this.y += this.vy;
+
+    this.x < 400 - this.h ? this.vx = 3 : this.vx = 0;
+    this.y - this.h < this.floor ? this.vy = 3 : this.vy = 0;
+    
+    if (this.y >= this.floor) {
+          this.vy = 0;
+          this.y = this.floor;
+    }
+
+    if (this.y < this.floor) {
+          this.vy = 3.5;
+    }
+
+  }
 
   shoot() {
 
