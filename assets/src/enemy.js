@@ -61,6 +61,18 @@ class Enemy {
     this.noskImg = new Image()
     this.noskImg.src = ["assets/src/images/enemies/Nosk.png",]
 
+    this.foolImg = new Image();
+    this.foolImg.src = ["assets/src/images/enemies/Fool.png",];
+
+    this.oblobbleImg = new Image();
+    this.oblobbleImg.src = ["assets/src/images/enemies/Oblobble.png",];
+
+    this.squitImg = new Image();
+    this.squitImg.src = ["assets/src/images/enemies/Squit.png",];
+
+    this.wingMouldImg = new Image();
+    this.wingMouldImg.src = ["assets/src/images/enemies/Wingmould.png",];
+
 
     this.enemyTypes = [
 
@@ -69,7 +81,7 @@ class Enemy {
       frames: 4,
       frameIndex : 0,
       x : 800,
-      y : 150+ Math.random() * 80,
+      y : 40+ Math.random() * 50,
       w : 60,
       h : 60,
       vx: -6,
@@ -113,7 +125,7 @@ class Enemy {
       frames: 3,
       frameIndex : 0,
       x : 800,
-      y : 250+ Math.random() * 80,
+      y : 250+ Math.random() * 40,
       w : 70,
       h: 70,
       vx: -6,
@@ -131,6 +143,63 @@ class Enemy {
       y : 200+ Math.random() * 80,
       w : 60,
       h: 60,
+      vx: -4,
+      vy: 0,
+      ax: 0,
+      ay: 0,
+      canShoot3: true,
+      },
+    
+      {
+      src : this.foolImg,
+      frames: 4,
+      frameIndex : 0,
+      x : 800,
+      y : 200+ Math.random() * 80,
+      w : 100,
+      h: 100,
+      vx: -4,
+      vy: 0,
+      ax: 0,
+      ay: 0
+      },      {
+      src : this.wingMouldImg,
+      frames: 3,
+      frameIndex : 0,
+      x : 800,
+      y : 200+ Math.random() * 60,
+      w : 60,
+      h: 60,
+      vx: -4,
+      vy: 0,
+      ax: 0,
+      ay: 0
+      },
+
+
+    
+      {
+      src : this.squitImg,
+      frames: 4,
+      frameIndex : 0,
+      x : 800,
+      y : 200+ Math.random() * 100,
+      w : 60,
+      h: 60,
+      vx: -6,
+      vy: 0,
+      ax: 0,
+      ay: 0
+      },
+    
+      {
+      src : this.oblobbleImg,
+      frames: 5,
+      frameIndex : 0,
+      x : 800,
+      y : 200+ Math.random() * 85,
+      w : 100,
+      h: 100,
       vx: -4,
       vy: 0,
       ax: 0,

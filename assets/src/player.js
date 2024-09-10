@@ -16,7 +16,7 @@ class Player {
     this.tick = 0;
     this.bullets = [];
     this.munitions = [];
-    this.lifeBar = [new Life(ctx, 0)];
+    this.lifeBar = [new Life(ctx, 0), new Life(ctx, 1), new Life(ctx, 2)];
 
     this.img = new Image();
     this.img.src = "assets/src/images/player/move.png"
@@ -51,18 +51,18 @@ class Player {
     let z = this.img.frameIndex;
     let h = 70;
 
-    if ((this.vy === 0 && this.vx === 0 && sum >=5)) { 
+    if ((this.vy === 0 && this.vx === 0 && sum >=30)) { 
       x = this.finalImage;
       y = this.finalImage.frames;
       z = this.finalImage.frameIndex;
       h = 90;
 
-    } else if (this.lifeBar.length >= 3 && this.lifeBar.length < 5) {
+    } else if (this.lifeBar.length >= 5 && this.lifeBar.length < 9) {
       x = this.secondImg;
       y = this.secondImg.frames;
       z = this.secondImg.frameIndex;
       h = 90;
-    } else if (this.lifeBar.length >= 5) {
+    } else if (this.lifeBar.length >= 9) {
       x = this.thirdImg;
       y = this.thirdImg.frames;
       z = this.thirdImg.frameIndex;
@@ -83,7 +83,7 @@ class Player {
   )
     this.animate(sum);
 
-    this.bullets.forEach(bullet => bullet.draw());
+    sum < 30 ? this.bullets.forEach(bullet => bullet.draw()) : false;
     this.munitions.forEach(mun => mun.draw());
     this.lifeBar.forEach(life => life.draw());  
 
@@ -100,11 +100,11 @@ class Player {
         this.tick = 0;
 
         if (this.finalImage.frameIndex >= (this.finalImage.frames - 1)) {
-          this.finalImage.frameIndex = 0;
+          this.finalImage.frameIndex = 6;
         }     
         break;
     
-        case this.lifeBar.length >= 3 && this.lifeBar.length < 5 && this.tick >= 20:
+        case this.lifeBar.length >= 5 && this.lifeBar.length < 8 && this.tick >= 20:
           this.secondImg.frameIndex++;
           this.tick = 0;
 
@@ -114,7 +114,7 @@ class Player {
 
         break;
 
-    case this.lifeBar.length <= 3 && this.tick >= 20:
+    case this.lifeBar.length <= 5 && this.tick >= 20:
       this.img.frameIndex++;
       this.tick = 0;
 
@@ -129,7 +129,7 @@ class Player {
       }
     break;
 
-    case this.lifeBar.length >= 5 && this.tick >= 20:
+    case this.lifeBar.length >= 9 && this.tick >= 20:
       this.thirdImg.frameIndex++;
       this.tick = 0;
 
@@ -150,7 +150,7 @@ class Player {
 
     switch (true) {
 
-      case this.lifeBar.length < 3:
+      case this.lifeBar.length < 5:
       
         this.ay = 0.5;
 
@@ -170,7 +170,7 @@ class Player {
         }
         break;
         
-      case this.lifeBar.length >=3:
+      case this.lifeBar.length >=5:
       
       this.ay = 0;
       
@@ -207,12 +207,12 @@ class Player {
     this.x < 400 - this.h ? this.vx = 3 : this.vx = 0;
     this.y - this.h < this.floor ? this.vy = 3 : this.vy = 0;
     
-    if (this.y >= this.floor) {
+    if (this.y + this.h >= this.floor) {
           this.vy = 0;
-          this.y = this.floor;
+          this.y = this.floor - this.h;
     }
 
-    if (this.y < this.floor) {
+    if (this.y + this.h < this.floor) {
           this.vy = 3.5;
     }
 
@@ -220,7 +220,7 @@ class Player {
 
   shoot() {
 
-    if (this.munitions.length > 0 && this.lifeBar.length >= 5) {
+    if (this.munitions.length > 0 && this.lifeBar.length >= 9) {
       const x = this.x + this.w;
       const y = this.y + (this.h / 2);
       const bullet1 = new Bullet(this.ctx, x, y, 0);
@@ -229,7 +229,7 @@ class Player {
       this.bullets.push(bullet1, bullet2, bullet3);
       this.munitions.splice(this.munitions.length - 1, 1);
       
-    } else if (this.munitions.length > 0 && this.lifeBar.length >= 3 && this.lifeBar.length < 5) {
+    } else if (this.munitions.length > 0 && this.lifeBar.length >= 5 && this.lifeBar.length < 9) {
 
         const x = this.x + this.w;
         const y = this.y + (this.h / 2);
@@ -241,10 +241,10 @@ class Player {
   }
 
   jump() {
-    if (this.y === this.floor && this.lifeBar.length < 3) {
+    if (this.y === this.floor && this.lifeBar.length < 5) {
       this.vy = -15;
       this.vy += this.ay;
-    } else if (this.lifeBar.length >= 3) {
+    } else if (this.lifeBar.length >= 5) {
       this.vy = -3;
     }
   }

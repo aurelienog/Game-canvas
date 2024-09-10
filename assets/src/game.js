@@ -54,7 +54,7 @@ class Game {
     this.bg.draw();
     this.player.draw(this.killedCount) ;
     this.enemies.forEach(enemy => enemy.draw()); 
-    this.items.forEach(item => item.draw()); 
+    this.killedCount < 30? this.items.forEach(item => item.draw()) : false; 
 
   }
 
@@ -75,15 +75,15 @@ class Game {
     const p = this.player;
     
     switch (true) {
-      case p.lifeBar.length >= 5 && this.tickEnemy3 >= 130:
+      case p.lifeBar.length >= 7 && this.tickEnemy3 >= 130:
         this.enemies.push(new Enemy(ctx, indice));
         this.tickEnemy3 = Math.random() * 100;
         break;
-      case p.lifeBar.length >= 3 && this.tickEnemy2 >= 145:
+      case p.lifeBar.length >= 5 && this.tickEnemy2 >= 150:
         this.enemies.push(new Enemy(ctx, indice));
         this.tickEnemy2 = Math.random() * 100;
         break;
-      case p.lifeBar.length <3 && this.tickEnemy1 >= 160:
+      case p.lifeBar.length <5 && this.tickEnemy1 >= 180:
         this.enemies.push(new Enemy(ctx, indice));
         this.tickEnemy1 = Math.random() * 100;
         break;
@@ -94,7 +94,7 @@ class Game {
   addItems() {
     const p = this.player;
     this.tick++;
-    if (this.tick >= 200 && p.lifeBar.length >= 3) {
+    if (this.tick >= 200 && p.lifeBar.length >= 5) {
       this.items.push(new Item(ctx));
       this.tick = Math.random() * 100;
     }
@@ -107,7 +107,7 @@ class Game {
       const x = p.munitions.length;
       this.itemAudio.play();
       
-      if (p.munitions.length<=2 && p.lifeBar.length >= 3) {
+      if (p.munitions.length<=2 && p.lifeBar.length >= 5) {
         p.munitions.push(new Munition(ctx, x));
         this.itemAudio.play();
         this.munitionCount = 0;
@@ -167,11 +167,11 @@ class Game {
     const colY = (p.y + p.h) >= enemyType.y && p.y <= (enemyType.y + enemyType.h);
     
     if (colX && colY) {
-      if (p.vy > enemyType.vy && p.lifeBar.length < 3) {
+      if (p.vy > enemyType.vy && p.lifeBar.length < 5) {
         this.enemies.splice(i, 1);
         p.lifeBar.push(new Life(ctx, x));
         this.killedCount++;
-        if (this.killedCount >= 5) {
+        if (this.killedCount >= 30) {
           this.finish()
         }
         
@@ -198,10 +198,10 @@ class Game {
             this.enemies.splice(i, 1);
             p.bullets.splice(y, 1);
             this.killedCount++;
-            if (this.killedCount >= 5) {
+            if (this.killedCount >= 30) {
           this.finish()
         }
-            if (p.lifeBar.length < 8) {
+            if (p.lifeBar.length < 9) {
               p.lifeBar.push(new Life(ctx, x));
               
             } 
@@ -285,14 +285,14 @@ class Game {
   initListeners() {
 
     document.onkeydown = (e) => {
-      if (this.killedCount < 5) {
+      if (this.killedCount < 30) {
         this.player.onKeyDown(e.keyCode);
       }
       
     }
 
     document.onkeyup = (e) => {
-      if (this.killedCount < 5) {
+      if (this.killedCount < 30) {
         this.player.onKeyUp(e.keyCode);
       }
       
