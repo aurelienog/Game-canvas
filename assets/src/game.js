@@ -7,6 +7,10 @@ class Game {
     this.interval = null;
     this.finalInterval = null;
     this.tick = 0;
+    this.timerTick = 0
+    this.sec = 0;
+    this.min = 0;
+
     this.player = new Player(ctx);
     this.items = [];
     this.geo = 0;
@@ -35,6 +39,7 @@ class Game {
     this.stop();
     this.initListeners();
     this.interval = setInterval(() => {
+      this.timer()
       this.clear();
       this.draw();
       this.move();
@@ -54,7 +59,45 @@ class Game {
     this.bg.draw();
     this.player.draw(this.killedCount) ;
     this.enemies.forEach(enemy => enemy.draw()); 
-    this.killedCount < 30? this.items.forEach(item => item.draw()) : false; 
+    this.killedCount < 30 ? this.items.forEach(item => item.draw()) : false; 
+    this.timer()
+
+  }
+
+  timer() {
+
+    this.killedCount < 30 ? this.timerTick++ : false;
+    
+    let minutes = `0${this.min}`;
+    let secondes = "";
+    
+    if (this.timerTick >= 100) {
+      this.timerTick = 0
+      this.sec++; 
+    }
+
+    if (this.sec >= 60) {
+      this.min++;
+      this.sec = 0;
+    } else if (this.sec <= 9) {
+      secondes = `0${this.sec}`;
+    } else {secondes = this.sec}
+    
+    
+    this.ctx.fillStyle = "white";
+
+    if (this.killedCount < 30) {
+      this.ctx.font = "15px serif";
+      this.ctx.fillText(minutes, 748, 55)
+      this.ctx.fillText(":", 764, 55)
+      this.ctx.fillText(secondes,770, 55)
+    } else {
+            this.ctx.font = "90px serif";
+      this.ctx.fillText(minutes, 300, 150)
+      this.ctx.fillText(":", 390, 150)
+      this.ctx.fillText(secondes,415, 150)
+    }
+
 
   }
 
@@ -64,7 +107,6 @@ class Game {
     const x = this.player.vx * -1;
     this.items.forEach(item => item.move(x));
     this.bg.move(x);
-      
   }
 
   addEnemies() {

@@ -44,7 +44,7 @@ class Player {
     
     this.ctx.font = "30px serif";
     this.ctx.fillStyle = "white";
-    this.ctx.fillText(sum,765, 30)
+    this.ctx.fillText(sum,757, 30)
     
     let x = this.img;
     let y = this.img.frames;
@@ -100,11 +100,11 @@ class Player {
         this.tick = 0;
 
         if (this.finalImage.frameIndex >= (this.finalImage.frames - 1)) {
-          this.finalImage.frameIndex = 6;
+          this.finalImage.frameIndex = 0;
         }     
         break;
     
-        case this.lifeBar.length >= 5 && this.lifeBar.length < 8 && this.tick >= 20:
+        case this.lifeBar.length >= 5 && this.lifeBar.length < 9 && this.tick >= 20:
           this.secondImg.frameIndex++;
           this.tick = 0;
 
