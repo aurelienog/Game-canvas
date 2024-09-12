@@ -95,7 +95,7 @@ class Game {
             this.ctx.font = "90px serif";
       this.ctx.fillText(minutes, 300, 150)
       this.ctx.fillText(":", 390, 150)
-      this.ctx.fillText(secondes,415, 150)
+      this.ctx.fillText(secondes,420, 150)
     }
 
 
@@ -113,7 +113,7 @@ class Game {
     this.tickEnemy1++;
     this.tickEnemy2++;
     this.tickEnemy3++;
-    let indice = Math.floor(Math.random() * 17);
+    let indice = Math.floor(Math.random() * 21);
     const p = this.player;
     
     switch (true) {
@@ -162,6 +162,7 @@ class Game {
     clearInterval(this.interval)
     //TODO cortar this.initListeners();
   }
+  
   
 
   checkBulletsCollision() {
