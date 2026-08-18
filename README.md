@@ -2,80 +2,138 @@
 
 🇫🇷 Ce README est disponible uniquement en anglais pour garantir une meilleure lisibilité technique.
 
+# 🎮 Grimm Gate – 2D Platformer Game
+
+**[▶️ PLAY GRIMM GATE ONLINE](https://aurelienog.github.io/Game-canvas/)**
+
+A 2D platformer game built from scratch with **Vanilla JavaScript and the HTML5 Canvas API**.
+
+Inspired by *Hollow Knight*, Grimm Gate combines platforming, combat, projectiles and character progression in a dynamic side-scrolling environment.
+
 ![Status](https://img.shields.io/badge/status-live-brightgreen)
+![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-yellow)
+![Canvas](https://img.shields.io/badge/HTML5-Canvas-orange)
 
-Grimm Gate – 2D Platformer Game (Vanilla JS + Canvas API)
+---
 
-Inspired by Hollow Knight. The player controls a character that evolves by defeating enemies, unlocking new abilities while navigating a dynamic and increasingly challenging environment.
+## 🎮 Play
+
+**[▶️ Click here to play Grimm Gate](https://aurelienog.github.io/Game-canvas/)**
+
+No installation required — the game runs directly in your browser.
+
+> 💡 **Keyboard recommended:** the game is designed for desktop keyboard controls.
 
 ---
 
 ## 🎮 Controls
 
-| Key             | Action              |
-|----------------|---------------------|
-| `→` Arrow Right | Move right          |
-| `↑ / ↓` Arrows  | Fly up / down       |
-| `Spacebar`      | Jump                |
-| `Ctrl`          | Shoot projectile    |
+| Key             | Action           |
+| --------------- | ---------------- |
+| `→` Arrow Right | Move right       |
+| `↑ / ↓` Arrows  | Fly up / down    |
+| `Space`         | Jump             |
+| `Ctrl`          | Shoot projectile |
 
 > Controls are optimized for keyboard input.
 
 ---
 
-## 🚀 Tech Stack
+## ✨ Main Features
 
-| Layer                | Tools                                  |
-| -------------------- | ------------------------------------------------- |
-| **Rendering**        | HTML5 Canvas API                                  |
-| **Language**         | JavaScript (ES6+)                                 |
-| **Styling**          | CSS                                               |
-| **Structure**        | OOP with JavaScript Classes                       |
-| **Assets**           | Spritesheets, SVGs, PNGs                          |
+* **Platforming & movement** — Run, jump and fly through the environment
+* **Combat system** — Shoot projectiles and fight different enemy types
+* **Sprite-based animations** — Movement, attack and flight animations
+* **Collision detection** — Player, enemies, bullets and interactive objects
+* **Progression system** — Recover health and ammunition while defeating enemies
+* **Side-scrolling environment** — Dynamic background movement following the player
+* **Game states** — Start screen, gameplay, victory and game-over states
+* **Modular architecture** — Game logic organized into reusable JavaScript classes
 
 ---
 
-## ✨ Main Features
+## 🚀 Tech Stack
 
-- **Smooth controls** – Run, jump, fly, shoot
-- **Sprite-based animations** – For movement, attack, and flight
-- **Collision detection** – Between player, enemies, bullets and environment
-- **Evolution system** – Player improves by defeating enemies
-- **Modular architecture** – Built with reusable JS classes (Player, Enemy, Item, Munition, etc.)
-  
+| Layer            | Technology                 |
+| ---------------- | -------------------------- |
+| **Rendering**    | HTML5 Canvas API           |
+| **Language**     | JavaScript (ES6+)          |
+| **Styling**      | CSS                        |
+| **Architecture** | Object-Oriented JavaScript |
+| **Animations**   | Sprite-based animations    |
+| **Audio**        | HTML5 Audio API            |
+| **Deployment**   | GitHub Pages               |
+
 ---
 
 ## 📁 Project Structure
-```
-/src
- ├── images/            # Game assets: sprites, backgrounds...
- ├── music/             # Sound and music files
- ├── background.js      # Side-scrolling background image logic
- ├── bullet.js          # Base bullet class (player projectile)
- ├── constants.js       # Global constants and config
- ├── enemy.js           # Enemy logic and behaviors
- ├── enemyBullet.js     # Extends Bullet – enemy projectiles
- ├── game.js            # Game core logic, loop, and state
- ├── item.js            # Bonus items (power-ups, etc.)
- ├── lifeBar.js         # Health bar (UI elements)
- ├── main.js            # Entry point – canvas init and game start
- ├── munition.js        # Ammo or special shots system
- └── player.js          # Main character movement, input, evolution
 
-index.html
-style.css
-
+```text
+/
+├── index.html
+└── assets/
+    ├── css/
+    │   └── style.css
+    │
+    └── src/
+        ├── constants.js
+        ├── lifeBar.js
+        ├── munition.js
+        ├── item.js
+        ├── bullet.js
+        ├── enemyBullet.js
+        ├── player.js
+        ├── enemy.js
+        ├── background.js
+        ├── game.js
+        ├── main.js
+        │
+        ├── images/
+        │   └── ...
+        │
+        └── music/
+            └── ...
 ```
+
+### Core JavaScript classes
+
+* `Player` — Player movement, input, combat and progression
+* `Enemy` — Enemy behavior and interactions
+* `Bullet` — Player projectile logic
+* `EnemyBullet` — Enemy projectile behavior
+* `Item` — Collectible objects and rewards
+* `Munition` — Ammunition management
+* `LifeBar` — Player health system
+* `Background` — Side-scrolling environment
+* `Game` — Main game loop, collisions, spawning and game states
+
 ---
 
 ## 🧠 What I Learned
 
-- How to build a complete 2D game using the Canvas API
-- Using OOP in JavaScript (classes, inheritance) to structure game logic
-- Sprite animation syncing with player states (run, jump, attack, fly)
-- Implementing a basic game engine loop and collision detection
-  
+Building Grimm Gate allowed me to explore:
+
+* Building a complete 2D game using the **Canvas API**
+* Structuring game logic using **JavaScript classes and OOP**
+* Creating a continuous **game loop** with `setInterval`
+* Implementing **collision detection** between multiple game entities
+* Managing player states, health, ammunition and progression
+* Synchronizing sprite animations with player actions
+* Working with browser-based audio and user input
+* Deploying a JavaScript game with **GitHub Pages**
+
 ---
 
-Built with 💙 by [Aurélie](https://aurelie-nogueira.vercel.app/)
-👉 [LinkedIn](https://linkedin.com/in/aurelie-nogueira) • [GitHub](https://github.com/aurelienog)
+## 🌐 Live Demo
+
+### **[🎮 PLAY GRIMM GATE →](https://aurelienog.github.io/Game-canvas/)**
+
+---
+
+## 👩‍💻 Author
+
+Built with 💙 by **[Aurélie Nogueira](https://aurelie-nogueira.vercel.app/)**
+
+[LinkedIn](https://linkedin.com/in/aurelie-nogueira) • [GitHub](https://github.com/aurelienog)
+
+---
